@@ -1,0 +1,86 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            SuperLista
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+                pullingIcon="arrow-dropdown"
+                pullingText="Pull to refresh"
+                refreshingSpinner="circles"
+                refreshingText="Refreshing...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <form [formGroup]="todo" (ngSubmit)="save()">
+        <ion-list inset>
+
+            <ion-item>
+                <ion-label>Product:</ion-label>
+                <ion-input type="text" formControlName="name"></ion-input>
+            </ion-item>
+
+        </ion-list>
+        <button ion-button full color="secondary" type="submit">Accept</button>
+    </form>
+
+    <ion-list>
+        <ion-card *ngFor="let p of objects" style="width: 107% !important; margin-left: -10px;">
+            <ion-card-content>
+
+                <ion-grid>
+                    <ion-row>
+                        <ion-col col-9>
+                            <ion-card-title class="card" style="font-size: medium; text-align: left">
+                                {{ p.name }}
+                            </ion-card-title>
+                        </ion-col>
+                        <ion-col col-3>
+                            <ion-card-title class="card" style="font-size: medium;">
+                                ${{ p.value }}
+                            </ion-card-title>
+                        </ion-col>
+                    </ion-row>
+
+
+                    <form [formGroup]="todo" (ngSubmit)="saveCard(p)">
+                        <ion-row>
+                            <ion-col col-10>
+
+                                <ion-item>
+                                    <ion-label color="black" stacked>Editar precio</ion-label>
+
+                                    <ion-input type="number" clearinput clearOnEdit="true" formControlName="value"></ion-input>
+
+                                </ion-item>
+                            </ion-col>
+                            <ion-col col-2>
+                                <button ion-button>
+                                    <ion-icon name="checkmark"></ion-icon>
+                                </button>
+                            </ion-col>
+
+                        </ion-row>
+                    </form>
+
+
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+
+    </ion-list>
+<div class="total" style="text-align: right; margin-right: 2rem; padding: 1.7rem">
+    <h6>Gasto estimado: $ {{ total }}</h6>
+</div>
+    <ion-fab left bottom>
+        <button ion-fab color="danger" (click)="limpia()">
+            <ion-icon name="trash"></ion-icon>
+        </button>
+    </ion-fab>
+
+
+</ion-content>
